@@ -22,7 +22,7 @@ const isValidEmail=(data)=>{
         errors.exist=true;
         errors.email={valid:false,message:"Please Enter Email"}
     }
-    if(re.test(String(email).toLowerCase())){
+    else if(re.test(String(email).toLowerCase())){
         errors.exist=false;
         errors.email={valid:true,message:""};
     }
@@ -45,6 +45,7 @@ app.post('/',(req,res)=>{
     console.log(req.body);
     if(errors.exist){
         console.log(errors);
+        res.status(400);
         res.send({error:true,errors,message:"error occured"})
     }else{
         let transport=nodemailer.createTransport({
@@ -63,7 +64,7 @@ app.post('/',(req,res)=>{
             },
             to:process.env.EMAIL,
             subject:subject,
-            html:'<p>'+subject+'</p>'
+            html:'<p>'+message+'</p>'
         }
         transport.sendMail(info,function(err,result){
             if(err) {
