@@ -64,7 +64,7 @@ app.post('/',(req,res)=>{
             },
             to:process.env.EMAIL,
             subject:subject,
-            html:'<p>'+subject+'</p>'
+            html:'<p>'+message+'</p>'
         }
         transport.sendMail(info,function(err,result){
             if(err) {
