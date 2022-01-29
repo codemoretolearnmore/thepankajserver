@@ -13,6 +13,7 @@ app.get('/',(req,res)=>{
 const isValidEmail=(data)=>{
     const {name,email,subject,message}=data;
     const errors={exist:false,name:{valid:true,message:""},email:{valid:true,message:""},subject:{valid:true,message:""},message:{valid:true,message:""}};
+    name=name.trim(),email=email.trim(),subject=subject.trim(), message=message.trim();
     if(name===""){
         errors.exist=true
         errors.name={valid:false,message:"Name is required"};
