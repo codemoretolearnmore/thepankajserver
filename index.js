@@ -6,10 +6,9 @@ const bodyParser=require('body-parser');
 const nodemailer=require('nodemailer');
 require('dotenv').config();
 app.use(cors());
-app.set('view engine','pug');
-app.set('views',path.join(__dirname,'views'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.static(path.join(__dirname,'build')));
 app.get('/',(req,res)=>{
     res.render("index");
 })
