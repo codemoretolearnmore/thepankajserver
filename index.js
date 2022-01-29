@@ -72,7 +72,7 @@ app.post('/',(req,res)=>{
         transport.sendMail(info,function(err,result){
             if(err) {
                 console.log(err);
-                res.status(500).send({error:true,message:"server error",errors:err});
+                res.status(500).send({error:true,message:"error in mail server",errors:err});
             }
             else {
                 console.log(result);
