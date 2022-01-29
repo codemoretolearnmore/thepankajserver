@@ -44,8 +44,8 @@ const isValidEmail=(data)=>{
     return errors;
 }
 app.post('/',(req,res)=>{
-    const errors=isValidEmail(req.body);
-    console.log(req.body);
+    const data=req.body;
+    const errors=isValidEmail(data);
     if(errors.exist){
         console.log(errors);
         res.status(400);
@@ -53,19 +53,17 @@ app.post('/',(req,res)=>{
     }else{
         let transport=nodemailer.createTransport({
             service: process.env.SERVICE,
-            port:process.env.SMTP_PORT,
             auth:{
                 user:process.env.EMAIL,
                 pass:process.env.PASSWORD
             }
         })
-        const {name,email,subject,message}=req.body;
+        var {name,email,subject,message}=data;
+        name=name.trim(),email=email.trim(),subject=subject.trim(),message=message.trim();
         let info={
-            from:{
-                name:name,
-                address:email
-            },
-            to:process.env.EMAIL,
+            from:name+" <"+email+">",
+            to:"Pankaj Saini "+" <"+process.env.EMAIL+">",
+            replyTo:name+" <"+email+">",
             subject:subject,
             html:'<p>'+message+'</p>'
         }
