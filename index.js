@@ -36,7 +36,7 @@ const isValidEmail=(data)=>{
     }
     if(message===""){
         errors.exist=true;
-        errors.subject={valid:false,message:"Message is empty"};
+        errors.message={valid:false,message:"Message is empty"};
     }
     return errors;
 }
