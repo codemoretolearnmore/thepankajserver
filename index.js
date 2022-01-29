@@ -1,14 +1,17 @@
 const express=require('express');
 const app=express();
+const path=require('path');
 const cors=require('cors');
 const bodyParser=require('body-parser');
 const nodemailer=require('nodemailer');
 require('dotenv').config();
-app.use(cors({origin:"*"}));
+app.use(cors());
+app.set('view engine','pug');
+app.set('views',path.join(__dirname,'views'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.get('/',(req,res)=>{
-    res.send({message:"request successfull"});
+    res.render("index");
 })
 const isValidEmail=(data)=>{
     const {name,email,subject,message}=data;
