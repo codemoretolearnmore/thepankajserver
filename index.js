@@ -1,5 +1,7 @@
 const express=require('express');
 const app=express();
+const mongoose = require('mongoose')
+const axios =require('axios')
 const path=require('path');
 const cors=require('cors');
 const bodyParser=require('body-parser');
@@ -9,8 +11,38 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname,'build')));
+mongoose.connect(
+    'mongodb+srv://sainipankaj1708:spankaj%40123@cluster0.tswtm.mongodb.net/temp?retryWrites=true&w=majority'
+)
+const db = mongoose.connection;
+db.once('open',()=>{
+    console.log('connected')
+})
+const dataSchema = new mongoose.Schema({
+    ip:String,
+    hostname:String,
+    city:String,
+    region:String,
+    country:String,
+    loc:String,
+    org:String,
+    postal:String,
+    timezone:String
+},
+    {timestamps:true}
+)
+const Address = mongoose.model('Locations',dataSchema)
 app.get('/',(req,res)=>{
-    res.render("index");
+    try{
+        const result = await axios.get('https://ipinfo.io/json?token=5f68f5dc0418d8')
+        console.log(await result.data)
+        const address = new Address(await result.data)
+        const response = await address.save();
+        res.render("index");
+    }catch(err){
+        res.send('error')
+    }
+    
 })
 const isValidEmail=(data)=>{
     var {name,email,subject,message}=data;
